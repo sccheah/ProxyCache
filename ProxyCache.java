@@ -16,14 +16,14 @@ public class ProxyCache {
     private static ServerSocket socket;
 
     // Cache
-    private static Map<HttpRequest, HttpResponse> cache;
+    private static Map<String, HttpResponse> cache;
 
     /** Create the ProxyCache object and the socket */
     public static void init(int p) {
         port = p;
         try {
             socket = new ServerSocket(port); // filled in
-            cache = new HashMap<HttpRequest, HttpResponse>();
+            cache = new HashMap<String, HttpResponse>();
         } catch (IOException e) {
             System.out.println("Error creating socket: " + e);
             System.exit(-1);
@@ -74,7 +74,7 @@ public class ProxyCache {
             client.close();
             server.close();
             /* Insert object into the cache */
-            cache.put(request, response);
+            cache.put(request.toString(), response);
             /* Fill in (optional exercise only) */
         } catch (IOException e) {
             System.out.println("Error writing response to client: " + e);
