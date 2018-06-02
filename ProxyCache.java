@@ -79,6 +79,10 @@ public class ProxyCache {
         } catch (IOException e) {
             System.out.println("Error writing response to client: " + e);
         }
+        System.out.println("\n\n");
+        System.out.println("request: " + request);
+        System.out.println("response: " + response);
+        System.out.println("\n\n");
     }
 
 
