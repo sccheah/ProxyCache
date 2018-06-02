@@ -5,11 +5,6 @@
  *
  */
 
-// still need to handle caching(?)
-
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
-
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -55,9 +50,9 @@ public class ProxyCache {
         /* Send request to server */
         try {
             /* Open socket and write request to socket */
-            server = new Server(request.getHost(), request.getPort()); // filled in
+            server = new Socket(request.getHost(), request.getPort()); // filled in
             DataOutputStream toServer = new DataOutputStream(server.getOutputStream()); // filled in
-            toServer.writeBytes(request); // filled in
+            toServer.writeBytes(request.toString()); // filled in
 
         } catch (UnknownHostException e) {
             System.out.println("Unknown host: " + request.getHost());
