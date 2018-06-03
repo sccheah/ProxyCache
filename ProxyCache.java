@@ -43,6 +43,20 @@ public class ProxyCache {
         try {
             BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream())); // filled in
             request = new HttpRequest(fromClient); // filled in
+
+            // get the response stored in cache and write data to client
+            if (cache.containsKey(request.toString()))
+            {
+                DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
+                response = cache.get(request.toString());
+                /* Write response to client. First headers, then body */
+                toClient.writeBytes(response.headers); // filled in
+                toClient.write(response.body);   // filled in
+
+                client.close();
+                return;
+            }
+
         } catch (IOException e) {
             System.out.println("Error reading request from client: " + e);
             return;
