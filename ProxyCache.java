@@ -5,6 +5,8 @@
  *
  */
 
+// HTTPRESPONSE BODY IS RETURNING GARBAGE ON heather.cs.ucdavis.edu
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -50,7 +52,7 @@ public class ProxyCache {
                 DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
                 response = cache.get(request.getHost() + Integer.toString(request.getPort()));
                 /* Write response to client. First headers, then body */
-                toClient.writeBytes(response.headers); // filled in
+                toClient.writeBytes(response.toString()); // filled in
                 toClient.write(response.body);   // filled in
 
                 client.close();
@@ -82,8 +84,11 @@ public class ProxyCache {
             response = new HttpResponse(fromServer); // filled in
             DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
             /* Write response to client. First headers, then body */
-            toClient.writeBytes(response.headers); // filled in
+            toClient.writeBytes(response.toString()); // filled in
             toClient.write(response.body);   // filled in
+
+            System.out.println("RESPONSE HEADERS: \n" + response.headers);
+            System.out.println("RESPONSE BODY: \n" + response.body);
 
             client.close();
             server.close();
