@@ -36,9 +36,6 @@ public class HttpRequest {
         URI = tmp[1];   // filled in
         version = tmp[2];   // filled in
 
-        System.out.println("URI is: " + URI);
-        System.out.println("METHOD is: " + method);
-
         if (!method.equals("GET")) {
             System.out.println("Error: Method not GET");
         }
