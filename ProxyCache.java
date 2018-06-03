@@ -45,10 +45,10 @@ public class ProxyCache {
             request = new HttpRequest(fromClient); // filled in
 
             // get the response stored in cache and write data to client
-            if (cache.containsKey(request.toString()))
+            if (cache.containsKey(request.getHost() + Integer.toString(request.getPort())))
             {
                 DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
-                response = cache.get(request.toString());
+                response = cache.get(request.getHost() + Integer.toString(request.getPort()));
                 /* Write response to client. First headers, then body */
                 toClient.writeBytes(response.headers); // filled in
                 toClient.write(response.body);   // filled in
@@ -88,7 +88,7 @@ public class ProxyCache {
             client.close();
             server.close();
             /* Insert object into the cache */
-            cache.put(request.toString(), response);
+            cache.put(request.getHost() + Integer.toString(request.getPort()), response);
             /* Fill in (optional exercise only) */
         } catch (IOException e) {
             System.out.println("Error writing response to client: " + e);
