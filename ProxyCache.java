@@ -47,10 +47,12 @@ public class ProxyCache {
             request = new HttpRequest(fromClient); // filled in
 
             // get the response stored in cache and write data to client
-            if (cache.containsKey(request.getHost() + Integer.toString(request.getPort())))
+            if (cache.containsKey(request.toString()))
             {
+                System.out.println("Responding with cached page...\n");
                 DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
-                response = cache.get(request.getHost() + Integer.toString(request.getPort()));
+                //response = cache.get(request.getHost() + Integer.toString(request.getPort()));
+                response = cache.get(request.toString());
                 /* Write response to client. First headers, then body */
                 toClient.writeBytes(response.toString()); // filled in
                 toClient.write(response.body);   // filled in
@@ -87,21 +89,14 @@ public class ProxyCache {
             toClient.writeBytes(response.toString()); // filled in
             toClient.write(response.body);   // filled in
 
-            System.out.println("RESPONSE HEADERS: \n" + response.headers);
-            System.out.println("RESPONSE BODY: \n" + response.body);
-
             client.close();
             server.close();
             /* Insert object into the cache */
-            cache.put(request.getHost() + Integer.toString(request.getPort()), response);
+            cache.put(request.toString(), response);
             /* Fill in (optional exercise only) */
         } catch (IOException e) {
             System.out.println("Error writing response to client: " + e);
         }
-        System.out.println("\n\n");
-        System.out.println("request: " + request);
-        System.out.println("response: " + response);
-        System.out.println("\n\n");
     }
 
 
