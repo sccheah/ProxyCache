@@ -49,7 +49,6 @@ public class ProxyCache {
             {
                 System.out.println("Responding with cached page...");
                 DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
-                //response = cache.get(request.getHost() + Integer.toString(request.getPort()));
                 response = cache.get(request.toString());
                 /* Write response to client. First headers, then body */
                 toClient.writeBytes(response.toString()); // filled in
@@ -92,7 +91,6 @@ public class ProxyCache {
 
             // Better error handling. If there is no response body
             if (response.check_if_body_empty(response.body) == 0)
-            //if (response.body.length == 0)
             {
                 System.out.println("Requested an object that is not available");
                 client.close();
