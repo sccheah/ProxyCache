@@ -1,5 +1,10 @@
 # Project #2
 
+### Authors
+Stanley Cheah
+Tiffany Yuen
+
+## Instructions for Compilation and Running
 In order to compile the project, type:
 ```
 javac -deprecation *.java
