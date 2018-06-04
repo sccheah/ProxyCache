@@ -93,6 +93,8 @@ public class ProxyCache {
             if (response.check_if_body_empty(response.body) == 0)
             {
                 System.out.println("Requested an object that is not available");
+
+                cache.put(request.toString(), response);
                 client.close();
                 server.close();
 
