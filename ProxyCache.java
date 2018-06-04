@@ -5,8 +5,6 @@
  *
  */
 
-// HTTPRESPONSE BODY IS RETURNING GARBAGE ON heather.cs.ucdavis.edu
-
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -49,7 +47,7 @@ public class ProxyCache {
             // get the response stored in cache and write data to client
             if (cache.containsKey(request.toString()))
             {
-                System.out.println("Responding with cached page...\n");
+                System.out.println("Responding with cached page...");
                 DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
                 //response = cache.get(request.getHost() + Integer.toString(request.getPort()));
                 response = cache.get(request.toString());
@@ -71,6 +69,10 @@ public class ProxyCache {
             server = new Socket(request.getHost(), request.getPort()); // filled in
             DataOutputStream toServer = new DataOutputStream(server.getOutputStream()); // filled in
             toServer.writeBytes(request.toString()); // filled in
+
+            // if we have post request, send it
+            if (!request.postData.equals(""))
+                toServer.writeBytes(request.postData);
 
         } catch (UnknownHostException e) {
             System.out.println("Unknown host: " + request.getHost());

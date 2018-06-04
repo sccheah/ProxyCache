@@ -18,15 +18,19 @@ public class HttpRequest {
     String URI;
     String version;
     String headers = "";
+    String postData = "";
     /** Server and port */
     private String host;
     private int port;
+    private boolean hasBody = false;
+    private int lengthOfBody = 0;
 
     /** Create HttpRequest by reading it from the client socket */
     public HttpRequest(BufferedReader from) {
         String firstLine = "";
         try {
             firstLine = from.readLine();
+            //System.out.println("firstline: " + firstLine);
         } catch (IOException e) {
             System.out.println("Error reading request line: " + e);
         }
@@ -39,9 +43,22 @@ public class HttpRequest {
         if (!method.equals("GET")) {
             System.out.println("Error: Method not GET");
         }
+        if (method.equals("POST")) {
+            System.out.println("Method is POST");
+            hasBody = true;
+        }
         try {
             String line = from.readLine();
             while (line.length() != 0) {
+
+                // get the length of the body for post request
+                if (line.startsWith("Content-Length") || line.startsWith("Content-length"))
+                {
+                    String[] tmpStr = line.split(" ");
+                    lengthOfBody = Integer.parseInt(tmpStr[1]);
+                }
+
+                //System.out.println("other line: " + line);
                 headers += line + CRLF;
                 /* We need to find host header to know which server to
                  * contact in case the request URI is not complete. */
@@ -58,10 +75,20 @@ public class HttpRequest {
                 }
                 line = from.readLine();
             }
+
+            // if we have a post request to parse
+            if (hasBody)
+            {
+                System.out.println("Parsing post request... ");
+                char[] body = new char[lengthOfBody];
+                from.read(body, 0, lengthOfBody);
+                postData = new String(body);
+            }
         } catch (IOException e) {
             System.out.println("Error reading from socket: " + e);
             return;
         }
+
         System.out.println("Host to contact is: " + host + " at port " + port);
     }
 
