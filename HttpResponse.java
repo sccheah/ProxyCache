@@ -92,12 +92,24 @@ public class HttpResponse {
                 }
                 bytesRead += res;
             }
+
         } catch (IOException e) {
             System.out.println("Error reading response body: " + e);
             return;
         }
 
 
+    }
+
+    public int check_if_body_empty(byte[] body)
+    {
+      for (int i = 0; i < body.length; i++)
+      {
+        if (body[i] != 0)
+          return -1;
+      }
+
+      return 0;
     }
 
     /**

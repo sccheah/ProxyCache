@@ -91,7 +91,8 @@ public class ProxyCache {
             toClient.writeBytes(response.toString()); // filled in
 
             // Better error handling. If there is no response body
-            if (response.body.length == 0)
+            if (response.check_if_body_empty(response.body) == 0)
+            //if (response.body.length == 0)
             {
                 System.out.println("Requested an object that is not available");
                 client.close();
