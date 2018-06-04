@@ -87,6 +87,17 @@ public class ProxyCache {
             DataOutputStream toClient = new DataOutputStream(client.getOutputStream()); // filled in
             /* Write response to client. First headers, then body */
             toClient.writeBytes(response.toString()); // filled in
+
+            // Better error handling. If there is no response body
+            if (response.body.length == 0)
+            {
+                System.out.println("Requested an object that is not available");
+                client.close();
+                server.close();
+
+                return;
+            }
+
             toClient.write(response.body);   // filled in
 
             client.close();
